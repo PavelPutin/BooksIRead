@@ -1,0 +1,262 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #fff;
+}
+
+.container {
+    max-width: 1200px;
+    min-width: 320px;
+    margin: 0 auto;
+    padding: 0 15px 0 15px;
+}
+
+a {
+    color: #143D44;
+    font-size: 16px;
+    transition: 0.15s color linear;
+}
+
+a:hover {
+    color: #BA463A;
+}
+
+p {
+    text-indent: 2em;
+}
+
+h1, h2, h3, p {
+    margin-bottom: 15px;
+}
+
+header,
+section {
+    margin-bottom: 20px;
+}
+
+header,
+footer {
+    flex-shrink: 0;
+}
+
+header {  
+    background: #143D44;
+}
+
+header .container,
+footer .container {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+}
+
+header .container {
+    justify-content: space-between;
+}
+
+main {
+    flex: 1 0 auto
+}
+
+.logo a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 35px;
+    transition: 0.15s color linear;
+}
+
+.site-navigation ul,
+.social-list {
+    list-style: none;
+    display: flex;
+}
+
+.site-navigation li {
+    margin-right: 15px;
+}
+
+.site-navigation li:last-of-type {
+    margin-right: 0;
+}
+
+.site-navigation a {
+    color: #fff;
+    font-size: 16px;
+    text-decoration: none;
+    transition: 0.15s color linear;
+}
+
+.logo a:hover,
+.site-navigation a:hover {
+    color: #BA463A;
+}
+
+.book-card .container,
+.about .flex,
+.my-review .container {
+    display: flex;
+}
+
+.book-title,
+.book-information,
+.my-name,
+.whoiam {
+    margin-bottom: 15px;
+}
+
+.img-slider-list {
+    overflow: hidden;
+    height: 500px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.img-slider-item {
+    display: none;
+}
+
+.img-slider-item.slider-item-active {
+    display: inline-block;
+}
+
+.slider-control {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.img-slider-button {
+    display: inline-block;
+    border: none;
+    background: transparent;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.img-slider-dot {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: lightgray;
+}
+
+.slider-button-left {
+    order: 1;
+}
+
+.img-slider-dot {
+    order: 2;
+}
+
+.slider-button-right {
+    order: 3;
+}
+
+.img-slider-button:hover {
+    color: #BA463A;
+}
+
+.img-slider-button:active {
+    color: #143D44;
+}
+
+.img-slider-dot.dot-active {
+    background: #BA463A;
+}
+
+.img-slider,
+.my-photo {
+    margin-right: 20px;
+}
+
+.my-photo,
+.book-cover {
+    max-width: 350px;
+}
+
+.book-information th {
+    display: block;
+    margin-right: 10px;
+    text-align: right;
+}
+
+.my-review .comment {
+    width: 80%;
+}
+
+.my-review .rating {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.rating p {
+    text-align: center;
+}
+
+.rating .value {
+    font-size: 40px;
+}
+
+.catalog-books {
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
+.catalog-title {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+}
+
+.catalog-books th,
+.catalog-books td {
+    padding: 5px 10px;
+    border-bottom: 1px solid #143D44;
+}
+
+.catalog-books th {
+    font-size: 1.2em;
+}
+
+footer {
+    background: #143D44;
+}
+
+footer .container {
+    justify-content: space-evenly;
+}
+
+footer .site-navigation ul,
+.social-list {
+    flex-direction: column;
+}
+
+footer .site-navigation li,
+.social-item {
+    margin-bottom: 5px;
+}
+
+.social-link {
+    color: #143D44;
+    font-size: 16px;
+    transition: 0.15s color linear;
+}
+
+.social-link:hover {
+    color: #BA463A;
+}
+
+footer .social-link {
+    color: #fff;
+    text-decoration: none;
+}
