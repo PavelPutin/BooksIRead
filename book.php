@@ -1,6 +1,7 @@
 <?php
 $title = "book";
-require "components/header.php";
+require_once $_SERVER["HTTP_HOST"] . '/../' . "subFunctions.php";
+require_once getURI("components/header.php");
 ?>
 
 <main>
@@ -9,16 +10,16 @@ require "components/header.php";
             <div class="img-slider">
                 <ul class="img-slider-list">
                     <li class="img-slider-item">
-                        <img class="book-cover" src="../img/Обложка%20книжки.jpg" alt="Учебник логики для средней школы С.Н. Виноградова">
+                        <img class="book-cover" src="<?php echo getURI("img/Обложка книжки.jpg") ?>" alt="Учебник логики для средней школы С.Н. Виноградова">
                     </li>
                     <li class="img-slider-item">
-                        <img class="book-cover" src="../img/Оглавление1.jpg" alt="Оглавление1">
+                        <img class="book-cover" src="<?php echo getURI("img/Оглавление1.jpg"); ?>" alt="Оглавление1">
                     </li>
                     <li class="img-slider-item">
-                        <img class="book-cover" src="../img/Оглавление2.jpg" alt="Оглавление2">
+                        <img class="book-cover" src="<?php echo getURI("img/Оглавление2.jpg"); ?>" alt="Оглавление2">
                     </li>
                     <li class="img-slider-item">
-                        <img class="book-cover" src="../img/Оглавление3.jpg" alt="Оглавление3">
+                        <img class="book-cover" src="<?php echo getURI("img/Оглавление3.jpg"); ?>" alt="Оглавление3">
                     </li>
                 </ul>
             </div>
@@ -67,7 +68,7 @@ require "components/header.php";
     </section>
 </main>
 
-<script src="../slider.js"></script>
+<script src=<?php echo getURI("../slider.js"); ?>></script>
 <?php
-require "components/footer.php";
+require_once getURI("components/footer.php");
 ?>

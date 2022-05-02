@@ -1,12 +1,13 @@
 <?php
 $title = 'Books I Read';
-require "components/header.php";
+require_once $_SERVER["HTTP_HOST"] . '/../' . "subFunctions.php";
+require_once getURI("components/header.php");
 ?>
 <main>
 <section class="catalog">
         <h2 class="catalog-title">Каталог книг</h2>
         <div class="container">
-            <!--<form class="catalog-settings" action="" method="post">
+            <form class="catalog-settings" action="" method="post">
                 <label for="is-read">
                     <input type="checkbox" name="is-read" id="is-read">
                     Книга прочитана
@@ -20,7 +21,7 @@ require "components/header.php";
                 </label>
 
                 <button type="submit">Позакать книги</button>
-            </form>-->
+            </form>
 
             <table class="catalog-books">
                 <thead>
@@ -43,7 +44,7 @@ require "components/header.php";
                 </thead>
                 <tbody>
                     <tr>
-                        <td><a href="books/book.php">Учебник логики для старших классов</a></td>
+                        <td><a href=<?php echo getURI("book.php"); ?>>Учебник логики для старших классов</a></td>
                         <td>Виноградов С.Н.</td>
                         <td>5.0</td>
                         <td>28.01.2022</td>
@@ -62,5 +63,5 @@ require "components/header.php";
     </section>
 </main>
 <?php
-    require "components/footer.php";
+    require_once getURI("components/footer.php");
 ?>

@@ -3,8 +3,8 @@
                 <div class="column">
                     <nav class="site-navigation">
                         <ul class="nav-list">
-                            <li class="nav-item"><a href="index.php" class="nav-anchor nav-anchor_active">Каталог</a></li>
-                            <li class="nav-item"><a href="about.php" class="nav-anchor">Обо мне</a></li>
+                            <li class="nav-item"><a href=<?php echo $_SERVER["HTTP_HOST"].'/../'.'index.php';?> class="nav-anchor nav-anchor_active">Каталог</a></li>
+                            <li class="nav-item"><a href=<?php echo $_SERVER["HTTP_HOST"].'/../'.'about.php';?> class="nav-anchor">Обо мне</a></li>
                         </ul>
                     </nav>
                 </div>

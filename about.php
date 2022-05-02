@@ -1,13 +1,14 @@
 <?php
 $title = "Обо мне";
-require "components/header.php";
+require_once $_SERVER["HTTP_HOST"] . '/../' . "subFunctions.php";
+require_once getURI("components/header.php");
 ?>
 
 <main>
     <section class="about">
         <div class="container">
             <div class="flex">
-                <img class="my-photo" src="img/моя%20фотография.jpg" alt="автор сайта">
+                <img class="my-photo" src="<?php echo getURI("img/моя%20фотография.jpg") ?>" alt="автор сайта">
 
                 <div class="column">
                     <h2 class="my-name">Путин Павел Александрович</h2>
@@ -35,5 +36,5 @@ require "components/header.php";
     </section>
 </main>
 <?php
-require "components/footer.php";
+require_once getURI("components/footer.php");
 ?>
