@@ -2,9 +2,12 @@
 $title = 'Books I Read';
 require_once $_SERVER["HTTP_HOST"] . '/../' . "subFunctions.php";
 require_once getURI("components/header.php");
+function getShortName($name, $surname, $patronymic) {
+    return $surname . " " . mb_substr($name, 0, 1) . "." . mb_substr($patronymic, 0, 1) . ".";
+}
 ?>
-<main>
-<section class="catalog">
+    <main>
+        <section class="catalog">
         <h2 class="catalog-title">Каталог книг</h2>
         <div class="container">
             <form class="catalog-settings" action="" method="post">
@@ -16,7 +19,10 @@ require_once getURI("components/header.php");
                 <label for="book-author">
                     Автор:
                     <select name="book-author-select" id="book-author-select">
-                        <option value="Виноградов С.Н.">Виноградов С.Н.</option>
+                        <?php
+                            $authors = new mysqli('localhost', 'root', '', 'authors');
+                            $authors->query("SET NAMES 'utf8");
+                        ?>
                     </select>
                 </label>
 
@@ -43,20 +49,47 @@ require_once getURI("components/header.php");
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><a href=<?php echo getURI("book.php"); ?>>Учебник логики для старших классов</a></td>
-                        <td>Виноградов С.Н.</td>
-                        <td>5.0</td>
-                        <td>28.01.2022</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td><a href="books/book2.php">Учебник логики для старших классов</a></td>
-                        <td>Виноградов С.Н.</td>
-                        <td>5.0</td>
-                        <td>28.01.2022</td>
-                        <td>-</td>
-                    </tr>
+                    <?php
+                        $booksIReadDB = new mysqli("localhost", "root", "", "booksireaddb");
+                        $booksIReadDB->query("SET NAMES 'utf8'");
+
+                        if ($booksIReadDB->connect_error) {
+                            echo "<tr><td colspan='5'> Возникла ошибка базы данных: #" . $booksIReadDB->connect_errno . " " . $booksIReadDB->connect_error . "</td></tr>";
+                        } else {
+                            $books = $booksIReadDB->query("SELECT
+                                books.id,
+                                books.title,
+                                authors.name,
+                                authors.surname,
+                                authors.patronymic,
+                                books.rating,
+                                books.dateStartReading,
+                                books.dateFinishReading
+                            FROM
+                                books
+                            INNER JOIN authors ON books.authorId = authors.id;");
+                            while ($row = $books->fetch_assoc()) {
+                                $linkURL = getURI("book.php?book=" . $row['id']);
+                                $dateStart = date('d.m.Y', strtotime($row['dateStartReading']));
+                                $authorName = getShortName($row['name'], $row['surname'], $row['patronymic']);
+                                if ($row['dateFinishReading']) {
+                                     $dateFinish = date('d.m.Y', strtotime($row['dateFinishReading']));
+                                } else {
+                                     $dateFinish = "";
+                                }
+
+                                echo "<tr>";
+                                echo "<td><a href=" . $linkURL . ">" . $row['title'] . "</a></td>";
+                                echo "<td>" . $authorName . "</td>";
+                                echo "<td>" . $row['rating'] . "</td>";
+                                echo "<td>" . $dateStart . "</td>";
+                                echo "<td>" . $dateFinish . "</td>";
+                                echo "</tr>";
+                            }
+                        }
+
+                        $booksIReadDB->close();
+                    ?>
                 </tbody>
             </table>
         </div>
