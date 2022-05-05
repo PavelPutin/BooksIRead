@@ -20,8 +20,20 @@ function getShortName($name, $surname, $patronymic) {
                     Автор:
                     <select name="book-author-select" id="book-author-select">
                         <?php
-                            $authors = new mysqli('localhost', 'root', '', 'authors');
+                            $authors = new mysqli('localhost', 'root', '', 'booksireaddb');
                             $authors->query("SET NAMES 'utf8");
+                            if ($authors->connect_error) {
+                                echo "Возникла ошибка базы данных: #" . $authors->connect_errno . " " . $authors->connect_error;
+                            } else {
+                                $authorsResult = $authors->query("SELECT * FROM `authors`");
+                                while ($row = $authorsResult->fetch_assoc()) {
+                                    echo "<option>" . $row['surname'] . ' ' . $row['name'] . ' ' . $row['patronymic'] . "</option>";
+                                }
+                            }
+
+
+
+                            $authors->close();
                         ?>
                     </select>
                 </label>
@@ -71,11 +83,11 @@ function getShortName($name, $surname, $patronymic) {
                             while ($row = $books->fetch_assoc()) {
                                 $linkURL = getURI("book.php?book=" . $row['id']);
                                 $dateStart = date('d.m.Y', strtotime($row['dateStartReading']));
-                                $authorName = getShortName($row['name'], $row['surname'], $row['patronymic']);
+                                $authorName = $row['surname'] . " " . mb_substr($row['name'], 0, 1) . "." . mb_substr($row['patronymic'], 0, 1) . ".";
                                 if ($row['dateFinishReading']) {
                                      $dateFinish = date('d.m.Y', strtotime($row['dateFinishReading']));
                                 } else {
-                                     $dateFinish = "";
+                                     $dateFinish = "-";
                                 }
 
                                 echo "<tr>";
