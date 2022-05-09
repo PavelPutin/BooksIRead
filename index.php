@@ -5,14 +5,36 @@ require_once getURI("components/header.php");
 function getShortName($name, $surname, $patronymic) {
     return $surname . " " . mb_substr($name, 0, 1) . "." . mb_substr($patronymic, 0, 1) . ".";
 }
+$booksIReadDB= new mysqli('localhost', 'root', '', 'booksireaddb');
+$booksIReadDB->query("SET NAMES 'utf8");
+$dataBaseConnect_error = $booksIReadDB->connect_error;
+$dataBaseConnect_errno = $booksIReadDB->connect_errno;
+if ($dataBaseConnect_error) {
+    echo "Возникла ошибка базы данных: #" . $booksIReadDB->connect_errno . " " . $booksIReadDB->connect_error;
+} else {
+    $booksIReadDBResult = $booksIReadDB->query("SELECT * FROM `authors`");
+    $books = $booksIReadDB->query("SELECT
+                                books.id,
+                                books.title,
+                                authors.name,
+                                authors.surname,
+                                authors.patronymic,
+                                books.rating,
+                                books.dateStartReading,
+                                books.dateFinishReading
+                            FROM
+                                books
+                            INNER JOIN authors ON books.authorId = authors.id;");
+}
+$booksIReadDB->close();
 ?>
     <main>
         <section class="catalog">
-        <h2 class="catalog-title">Каталог книг</h2>
-        <div class="container">
-            <form class="catalog-settings" action="" method="post">
-                <label for="is-read">
-                    <input type="checkbox" name="is-read" id="is-read">
+            <h2 class="catalog-title">Каталог книг</h2>
+            <div class="container">
+                <form class="catalog-settings" action="" method="post">
+                    <label for="is-read">
+                        <input type="checkbox" name="is-read" id="is-read">
                     Книга прочитана
                 </label>
 
@@ -20,20 +42,11 @@ function getShortName($name, $surname, $patronymic) {
                     Автор:
                     <select name="book-author-select" id="book-author-select">
                         <?php
-                            $authors = new mysqli('localhost', 'root', '', 'booksireaddb');
-                            $authors->query("SET NAMES 'utf8");
-                            if ($authors->connect_error) {
-                                echo "Возникла ошибка базы данных: #" . $authors->connect_errno . " " . $authors->connect_error;
-                            } else {
-                                $authorsResult = $authors->query("SELECT * FROM `authors`");
-                                while ($row = $authorsResult->fetch_assoc()) {
-                                    echo "<option>" . $row['surname'] . ' ' . $row['name'] . ' ' . $row['patronymic'] . "</option>";
-                                }
+                        if (!$dataBaseConnect_error) {
+                            while ($row = $booksIReadDBResult->fetch_assoc()) {
+                                echo "<option>" . $row['surname'] . ' ' . $row['name'] . ' ' . $row['patronymic'] . "</option>";
                             }
-
-
-
-                            $authors->close();
+                        }
                         ?>
                     </select>
                 </label>
@@ -62,24 +75,7 @@ function getShortName($name, $surname, $patronymic) {
                 </thead>
                 <tbody>
                     <?php
-                        $booksIReadDB = new mysqli("localhost", "root", "", "booksireaddb");
-                        $booksIReadDB->query("SET NAMES 'utf8'");
-
-                        if ($booksIReadDB->connect_error) {
-                            echo "<tr><td colspan='5'> Возникла ошибка базы данных: #" . $booksIReadDB->connect_errno . " " . $booksIReadDB->connect_error . "</td></tr>";
-                        } else {
-                            $books = $booksIReadDB->query("SELECT
-                                books.id,
-                                books.title,
-                                authors.name,
-                                authors.surname,
-                                authors.patronymic,
-                                books.rating,
-                                books.dateStartReading,
-                                books.dateFinishReading
-                            FROM
-                                books
-                            INNER JOIN authors ON books.authorId = authors.id;");
+                        if (!$dataBaseConnect_error) {
                             while ($row = $books->fetch_assoc()) {
                                 $linkURL = getURI("book.php?book=" . $row['id']);
                                 $dateStart = date('d.m.Y', strtotime($row['dateStartReading']));
@@ -99,8 +95,6 @@ function getShortName($name, $surname, $patronymic) {
                                 echo "</tr>";
                             }
                         }
-
-                        $booksIReadDB->close();
                     ?>
                 </tbody>
             </table>

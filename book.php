@@ -2,6 +2,17 @@
 $title = "book";
 require_once $_SERVER["HTTP_HOST"] . '/../' . "subFunctions.php";
 require_once getURI("components/header.php");
+$bookId = $_GET['book'];
+
+$booksIReadDB= new mysqli('localhost', 'root', '', 'booksireaddb');
+$booksIReadDB->query("SET NAMES 'utf8");
+$dataBaseConnect_error = $booksIReadDB->connect_error;
+$dataBaseConnect_errno = $booksIReadDB->connect_errno;
+if ($dataBaseConnect_error) {
+    echo "Возникла ошибка базы данных: #" . $booksIReadDB->connect_errno . " " . $booksIReadDB->connect_error;
+} else {
+}
+$booksIReadDB->close();
 ?>
 
 <main>
