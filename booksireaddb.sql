@@ -2,10 +2,10 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Хост: 127.0.0.1:3306
--- Время создания: Май 04 2022 г., 21:13
--- Версия сервера: 5.7.33
--- Версия PHP: 8.0.14
+-- Host: 127.0.0.1:3306
+-- Generation Time: May 09, 2022 at 09:22 PM
+-- Server version: 5.5.68-MariaDB
+-- PHP Version: 7.1.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- База данных: `booksireaddb`
+-- Database: `booksireaddb`
 --
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `authors`
+-- Table structure for table `authors`
 --
 
 CREATE TABLE `authors` (
@@ -34,10 +34,18 @@ CREATE TABLE `authors` (
   `patronymic` varchar(80) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `authors`
+--
+
+INSERT INTO `authors` (`id`, `name`, `surname`, `patronymic`) VALUES
+(1, 'Сергей', 'Виноградов', 'Николаевич'),
+(2, 'Лев', 'Толстой', 'Николаевич');
+
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `books`
+-- Table structure for table `books`
 --
 
 CREATE TABLE `books` (
@@ -49,15 +57,24 @@ CREATE TABLE `books` (
   `dateStartReading` date DEFAULT NULL,
   `dateFinishReading` date DEFAULT NULL,
   `edition` varchar(255) DEFAULT NULL,
-  `yearEdition` year(4) NOT NULL,
+  `yearEdition` varchar(5) NOT NULL,
   `publishingHouse` varchar(255) DEFAULT NULL,
   `review` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `books`
+--
+
+INSERT INTO `books` (`id`, `title`, `authorId`, `description`, `rating`, `dateStartReading`, `dateFinishReading`, `edition`, `yearEdition`, `publishingHouse`, `review`) VALUES
+(1, 'Логика', 1, 'Это учебник логики. По нему учились в СССР', 5, '2022-05-01', NULL, '8-е издание', '2021', 'Концептуал', 'Книга очень понравилась. Советую к прочтению'),
+(3, 'Война и мир', 2, 'Великий роман Льва Николаевича Толстого, повествующий о событиях Отечественной войны 1812 года.', 5, '2022-03-01', '2022-05-04', NULL, '1867', NULL, 'Роман очень подробно описывает события начала 19го века. Всем интересующимся этой эпохой обязательно к прочтению.'),
+(4, 'После бала', 2, 'Происходит спор о том, что определяет человеческую судьбу.', 4, '2021-10-12', '2022-02-08', NULL, '1911', NULL, 'Книга понравилась, но не мой жанр.');
+
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `comments`
+-- Table structure for table `comments`
 --
 
 CREATE TABLE `comments` (
@@ -73,7 +90,7 @@ CREATE TABLE `comments` (
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `photos`
+-- Table structure for table `photos`
 --
 
 CREATE TABLE `photos` (
@@ -82,10 +99,23 @@ CREATE TABLE `photos` (
   `bookId` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `photos`
+--
+
+INSERT INTO `photos` (`id`, `photoURI`, `bookId`) VALUES
+(1, 'img/Обложка книжки.jpg', 1),
+(2, 'img/Оглавление1.jpg', 1),
+(3, 'img/Оглавление2.jpg', 1),
+(4, 'img/Война и мир.jpg', 3),
+(5, 'img/Война и мир2.jpg', 3),
+(6, 'img/после бала.jpg', 4),
+(7, 'img/После бала 2.jpg', 4);
+
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -97,24 +127,31 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Индексы сохранённых таблиц
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `pass`, `startFollowing`) VALUES
+(1, 'Pavel', 'pavelputin2003@yandex.ru', 'd8578edf8458ce06fbc5bb76a58c5ca4', '2022-05-05 08:47:07');
+
+--
+-- Indexes for dumped tables
 --
 
 --
--- Индексы таблицы `authors`
+-- Indexes for table `authors`
 --
 ALTER TABLE `authors`
   ADD PRIMARY KEY (`id`);
 
 --
--- Индексы таблицы `books`
+-- Indexes for table `books`
 --
 ALTER TABLE `books`
   ADD PRIMARY KEY (`id`),
   ADD KEY `authorId` (`authorId`);
 
 --
--- Индексы таблицы `comments`
+-- Indexes for table `comments`
 --
 ALTER TABLE `comments`
   ADD PRIMARY KEY (`id`),
@@ -122,7 +159,7 @@ ALTER TABLE `comments`
   ADD KEY `comments_ibfk_2` (`bookId`);
 
 --
--- Индексы таблицы `photos`
+-- Indexes for table `photos`
 --
 ALTER TABLE `photos`
   ADD PRIMARY KEY (`id`),
@@ -130,65 +167,65 @@ ALTER TABLE `photos`
   ADD KEY `photos_ibfk_1` (`bookId`);
 
 --
--- Индексы таблицы `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `EMAIL` (`email`);
 
 --
--- AUTO_INCREMENT для сохранённых таблиц
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT для таблицы `authors`
+-- AUTO_INCREMENT for table `authors`
 --
 ALTER TABLE `authors`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT для таблицы `books`
+-- AUTO_INCREMENT for table `books`
 --
 ALTER TABLE `books`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT для таблицы `comments`
+-- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT для таблицы `photos`
+-- AUTO_INCREMENT for table `photos`
 --
 ALTER TABLE `photos`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT для таблицы `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- Ограничения внешнего ключа сохраненных таблиц
+-- Constraints for dumped tables
 --
 
 --
--- Ограничения внешнего ключа таблицы `books`
+-- Constraints for table `books`
 --
 ALTER TABLE `books`
   ADD CONSTRAINT `books_ibfk_1` FOREIGN KEY (`authorId`) REFERENCES `authors` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ограничения внешнего ключа таблицы `comments`
+-- Constraints for table `comments`
 --
 ALTER TABLE `comments`
   ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`bookId`) REFERENCES `books` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Ограничения внешнего ключа таблицы `photos`
+-- Constraints for table `photos`
 --
 ALTER TABLE `photos`
   ADD CONSTRAINT `photos_ibfk_1` FOREIGN KEY (`bookId`) REFERENCES `books` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
