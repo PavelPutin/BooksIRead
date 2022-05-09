@@ -6,7 +6,7 @@ function getShortName($name, $surname, $patronymic) {
     return $surname . " " . mb_substr($name, 0, 1) . "." . mb_substr($patronymic, 0, 1) . ".";
 }
 $booksIReadDB= new mysqli('localhost', 'root', '', 'booksireaddb');
-$booksIReadDB->query("SET NAMES 'utf8");
+$booksIReadDB->set_charset('utf8');
 $dataBaseConnect_error = $booksIReadDB->connect_error;
 $dataBaseConnect_errno = $booksIReadDB->connect_errno;
 if ($dataBaseConnect_error) {

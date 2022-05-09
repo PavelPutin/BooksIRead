@@ -5,12 +5,40 @@ require_once getURI("components/header.php");
 $bookId = $_GET['book'];
 
 $booksIReadDB= new mysqli('localhost', 'root', '', 'booksireaddb');
-$booksIReadDB->query("SET NAMES 'utf8");
+$booksIReadDB->set_charset('utf8');
 $dataBaseConnect_error = $booksIReadDB->connect_error;
 $dataBaseConnect_errno = $booksIReadDB->connect_errno;
 if ($dataBaseConnect_error) {
     echo "Возникла ошибка базы данных: #" . $booksIReadDB->connect_errno . " " . $booksIReadDB->connect_error;
 } else {
+    $book = $booksIReadDB->prepare("SELECT
+        	books.title,
+			books.description,
+			books.rating,
+			books.dateStartReading,
+			books.dateFinishReading,
+			books.edition,
+			books.yearEdition,
+			books.publishingHouse,
+			books.review
+		FROM
+		    books
+		WHERE
+		    books.id = ?");
+    $book->bind_param('i', $bookId);
+    $book->execute();
+
+//    $author = $booksIReadDB->prepare("SELECT
+//            authors.name,
+//            authors.surname,
+//            authors.patronymic
+//        FROM
+//            authors
+//        INNER JOIN books ON authors.id = books.authorId
+//        WHERE
+//            books.id = ?");
+//    $author->bind_param('i', $bookId);
+//    $author->execute();
 }
 $booksIReadDB->close();
 ?>
