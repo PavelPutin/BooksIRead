@@ -1,4 +1,7 @@
 <?php
+function getShortName($name, $surname, $patronymic) {
+    return $surname . " " . mb_substr($name, 0, 1) . "." . mb_substr($patronymic, 0, 1) . ".";
+}
 $bookId = $_GET['book'];
 
 try {
@@ -60,47 +63,46 @@ try {
                         }
                     }
                 ?>
-<!--                <ul class="img-slider-list">-->
-<!--                    <li class="img-slider-item">-->
-<!--                        <img class="book-cover" src="--><?php //echo getURI($photoURI) ?><!--" alt="Учебник логики для средней школы С.Н. Виноградова">-->
-<!--                    </li>-->
-<!--                    <li class="img-slider-item">-->
-<!--                        <img class="book-cover" src="--><?php //echo getURI("img/Оглавление1.jpg"); ?><!--" alt="Оглавление1">-->
-<!--                    </li>-->
-<!--                    <li class="img-slider-item">-->
-<!--                        <img class="book-cover" src="--><?php //echo getURI("img/Оглавление2.jpg"); ?><!--" alt="Оглавление2">-->
-<!--                    </li>-->
-<!--                    <li class="img-slider-item">-->
-<!--                        <img class="book-cover" src="--><?php //echo getURI("img/Оглавление3.jpg"); ?><!--" alt="Оглавление3">-->
-<!--                    </li>-->
-<!--                </ul>-->
             </div>
 
             <div class="column">
-                <h1 class="book-title">"Логика", учебник для средней школы</h1>
+                <h1 class="book-title"><?= $book['title']; ?></h1>
 
                 <table class="book-information">
                     <tr>
                         <th>Издание</th>
-                        <td>восстановленное с оригинала 1954 года</td>
+                        <td>
+                            <?
+                            if ($book['edition']) {
+                                echo $book['edition'];
+                            } else {
+                                echo '-';
+                            } ?>
+                        </td>
                     </tr>
                     <tr>
                         <th>Год издания</th>
-                        <td>2020</td>
+                        <td><?= $book['yearEdition'] ?></td>
                     </tr>
                     <tr>
                         <th>Автор</th>
-                        <td>С.Н. Виноградов</td>
+                        <td><?= getShortName($author['name'], $author['surname'], $author['patronymic']) ?></td>
                     </tr>
                     <tr>
                         <th>Издательство</th>
-                        <td>Концептуал</td>
+                        <td>
+                            <?
+                            if ($book['publishingHouse']) {
+                                echo $book['publishingHouse'];
+                            } else {
+                                echo '-';
+                            } ?>
+                        </td>
                     </tr>
                 </table>
 
                 <div class="annotation">
-                    <p>ЦК ВКП(б) в постановлении "О преподавании логики и психологии в средней школе" от 3 декабря 1946 года признал совершенно ненормальным, что в средних школах не изучается логика и психология, и счел необходимым ввести в течение 4 лет, начиная с 1947/48 учебного года, преподавание этих предметов во всех школах Советского Союза.</p>
-                    <p>В 1959 году преподавание логики в средней школе отменили. Предлагаем восполнить пробел и изучить логику, чтобы уметь правильно формулировать свои мысли. Это нужно каждому - будь то ученик школы или взрослый человек. Понимание логических законов поможет эффективно общаться с другими людьми и принесет успех в труде, карьере, личностном росте.</p>
+                    <?= $book['description'] ?>
                 </div>
             </div>
         </div>
@@ -110,11 +112,11 @@ try {
         <div class="container">
             <div class="comment">
                 <h2>Мой комментарий:</h2>
-                <p>Книга очень понравилась.</p>
+                <p><?= $book['review'] ?></p>
             </div>
             <div class="rating">
                 <div>Оценка:</div>
-                <div class="value">5</div>
+                <div class="value"><?= $book['rating'] ?></div>
             </div>
         </div>
     </section>
