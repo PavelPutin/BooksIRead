@@ -180,7 +180,7 @@ main {
 
 .my-photo,
 .book-cover {
-    max-width: 350px;
+    width: 350px;
 }
 
 .book-information th {

@@ -1,16 +1,8 @@
 <?php
-$title = "book";
-require_once $_SERVER["HTTP_HOST"] . '/../' . "subFunctions.php";
-require_once getURI("components/header.php");
 $bookId = $_GET['book'];
 
-$booksIReadDB= new mysqli('localhost', 'root', '', 'booksireaddb');
-$booksIReadDB->set_charset('utf8');
-$dataBaseConnect_error = $booksIReadDB->connect_error;
-$dataBaseConnect_errno = $booksIReadDB->connect_errno;
-if ($dataBaseConnect_error) {
-    echo "Возникла ошибка базы данных: #" . $booksIReadDB->connect_errno . " " . $booksIReadDB->connect_error;
-} else {
+try {
+    $booksIReadDB = new PDO('mysql:host=localhost;dbname=booksireaddb', 'root', '');
     $book = $booksIReadDB->prepare("SELECT
         	books.title,
 			books.description,
@@ -25,42 +17,63 @@ if ($dataBaseConnect_error) {
 		    books
 		WHERE
 		    books.id = ?");
-    $book->bind_param('i', $bookId);
-    $book->execute();
+    $book->execute([$bookId]);
+    $book = $book->fetch();
 
-//    $author = $booksIReadDB->prepare("SELECT
-//            authors.name,
-//            authors.surname,
-//            authors.patronymic
-//        FROM
-//            authors
-//        INNER JOIN books ON authors.id = books.authorId
-//        WHERE
-//            books.id = ?");
-//    $author->bind_param('i', $bookId);
-//    $author->execute();
+    $title = $book['title'];
+    require_once $_SERVER["HTTP_HOST"] . '/../' . "subFunctions.php";
+    require_once getURI("components/header.php");
+
+    $author = $booksIReadDB->prepare("SELECT
+            authors.name,
+            authors.surname,
+            authors.patronymic
+        FROM
+            authors
+        INNER JOIN books ON authors.id = books.authorId
+        WHERE
+            books.id = ?");
+    $author->execute([$bookId]);
+    $author = $author->fetch();
+
+    $photos = $booksIReadDB->prepare("SELECT photos.photoURI FROM photos WHERE photos.bookId = ?");
+    $photos->execute([$bookId]);
+} catch (PDOException $exception) {
+    print $exception->getMessage() . "<br>";
+    die();
 }
-$booksIReadDB->close();
 ?>
 
 <main>
     <section class="book-card">
         <div class="container">
-            <div class="img-slider">
-                <ul class="img-slider-list">
-                    <li class="img-slider-item">
-                        <img class="book-cover" src="<?php echo getURI("img/Обложка книжки.jpg") ?>" alt="Учебник логики для средней школы С.Н. Виноградова">
-                    </li>
-                    <li class="img-slider-item">
-                        <img class="book-cover" src="<?php echo getURI("img/Оглавление1.jpg"); ?>" alt="Оглавление1">
-                    </li>
-                    <li class="img-slider-item">
-                        <img class="book-cover" src="<?php echo getURI("img/Оглавление2.jpg"); ?>" alt="Оглавление2">
-                    </li>
-                    <li class="img-slider-item">
-                        <img class="book-cover" src="<?php echo getURI("img/Оглавление3.jpg"); ?>" alt="Оглавление3">
-                    </li>
-                </ul>
+            <div class="img-slider column">
+                <?php
+                    if ($photos->rowCount() != 0) {
+                        echo '<ul class="img-slider-list">';
+                        while ($row = $photos->fetch()) {
+                            $photoURI = getURI($row['photoURI']);
+                            echo '<li class="img-slider-item">';
+                            echo '<img class="book-cover" src="' . $photoURI . '" alt="">';
+                            echo '</li>';
+
+                        }
+                    }
+                ?>
+<!--                <ul class="img-slider-list">-->
+<!--                    <li class="img-slider-item">-->
+<!--                        <img class="book-cover" src="--><?php //echo getURI($photoURI) ?><!--" alt="Учебник логики для средней школы С.Н. Виноградова">-->
+<!--                    </li>-->
+<!--                    <li class="img-slider-item">-->
+<!--                        <img class="book-cover" src="--><?php //echo getURI("img/Оглавление1.jpg"); ?><!--" alt="Оглавление1">-->
+<!--                    </li>-->
+<!--                    <li class="img-slider-item">-->
+<!--                        <img class="book-cover" src="--><?php //echo getURI("img/Оглавление2.jpg"); ?><!--" alt="Оглавление2">-->
+<!--                    </li>-->
+<!--                    <li class="img-slider-item">-->
+<!--                        <img class="book-cover" src="--><?php //echo getURI("img/Оглавление3.jpg"); ?><!--" alt="Оглавление3">-->
+<!--                    </li>-->
+<!--                </ul>-->
             </div>
 
             <div class="column">
