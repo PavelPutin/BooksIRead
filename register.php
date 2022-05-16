@@ -1,7 +1,6 @@
 <?php
 session_start();
-$title = 'Books I Read';
-require_once $_SERVER["HTTP_HOST"] . '/../' . "subFunctions.php";
+$title = 'Registration';
 require_once $_SERVER["HTTP_HOST"] . '/../' . "subFunctions.php";
 require_once getURI("components/header.php");
 ?>

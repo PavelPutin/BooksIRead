@@ -7,7 +7,7 @@
     unset($_SESSION['email']);
 
 
-require_once $_SERVER["HTTP_HOST"] . '/../' . "subFunctions.php";
+    require_once $_SERVER["HTTP_HOST"] . '/../' . "subFunctions.php";
     require_once getURI("config.php");
 
     $username = $_POST['name'];
@@ -26,12 +26,12 @@ require_once $_SERVER["HTTP_HOST"] . '/../' . "subFunctions.php";
 
     if ($query->rowCount() > 0) {
         $_SESSION['error_email'] = 'Такой адрес уже существует';
-        header('Location: register.php');
+        header('Location:' . getURI('register.php'));
         exit;
     }
     if ($password != $password_repeat) {
         $_SESSION['error_password'] = 'Вы неправильно повторили пароль';
-        header('Location: register.php');
+        header('Location:' . getURI('register.php'));
         exit;
     }
     if ($query->rowCount() == 0) {
@@ -40,6 +40,12 @@ require_once $_SERVER["HTTP_HOST"] . '/../' . "subFunctions.php";
         $query->bindParam('pass', $password_hash, PDO::PARAM_STR);
         $query->bindParam('email', $email, PDO::PARAM_STR);
         $result = $query->execute();
-        header('Location: index.php');
+
+        $query = $booksIReadDB->prepare("SELECT * FROM users WHERE email=:email");
+        $query->bindParam('email', $email,  PDO::PARAM_STR);
+        $query->execute();
+
+        $_SESSION['user_id'] = $query->fetch(PDO::FETCH_ASSOC)['id'];
+        header('Location:' . getURI('index.php'));
         exit;
     }

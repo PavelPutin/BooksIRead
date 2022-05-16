@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once getURI("subFunctions.php");
 ?>
 <!DOCTYPE html>
@@ -20,6 +21,14 @@ require_once getURI("subFunctions.php");
                 <li class="nav-item"><a href="<?php echo getURI('index.php');?>" class="nav-anchor nav-anchor_active">Каталог</a></li>
                 <li class="nav-item"><a href="<?php echo getURI('about.php');?>" class="nav-anchor">Обо мне</a></li>
                 <li class="nav-item"><a href="<?php echo getURI('register.php');?>" class="nav-anchor">Зарегистрироваться</a></li>
+                <li class="nav-item"><a href="<?php echo getURI('login.php');?>" class="nav-anchor"><?
+                        if ($_SESSION['user_id']) {
+                            echo $_SESSION['username'];
+                        }
+                        else {
+                            echo 'Войти';
+                        }
+                        ?></a></li>
             </ul>
         </nav>
     </div>
