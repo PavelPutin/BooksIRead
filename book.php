@@ -1,50 +1,56 @@
 <?php
+require_once $_SERVER["HTTP_HOST"] . '/../' . "subFunctions.php";
+require_once getURI("config.php");
+
 function getShortName($name, $surname, $patronymic) {
     return $surname . " " . mb_substr($name, 0, 1) . "." . mb_substr($patronymic, 0, 1) . ".";
 }
-$bookId = $_GET['book'];
-
-try {
-    $booksIReadDB = new PDO('mysql:host=localhost;dbname=booksireaddb', 'root', '');
-    $book = $booksIReadDB->prepare("SELECT
-        	books.title,
-			books.description,
-			books.rating,
-			books.dateStartReading,
-			books.dateFinishReading,
-			books.edition,
-			books.yearEdition,
-			books.publishingHouse,
-			books.review
-		FROM
-		    books
-		WHERE
-		    books.id = ?");
-    $book->execute([$bookId]);
-    $book = $book->fetch();
-
-    $title = $book['title'];
-    require_once $_SERVER["HTTP_HOST"] . '/../' . "subFunctions.php";
-    require_once getURI("components/header.php");
-
-    $author = $booksIReadDB->prepare("SELECT
-            authors.name,
-            authors.surname,
-            authors.patronymic
-        FROM
-            authors
-        INNER JOIN books ON authors.id = books.authorId
-        WHERE
-            books.id = ?");
-    $author->execute([$bookId]);
-    $author = $author->fetch();
-
-    $photos = $booksIReadDB->prepare("SELECT photos.photoURI FROM photos WHERE photos.bookId = ?");
-    $photos->execute([$bookId]);
-} catch (PDOException $exception) {
-    print $exception->getMessage() . "<br>";
-    die();
+if ($_GET['book']) {
+    $bookId = $_GET['book'];
 }
+else {
+    $bookID = 0;
+}
+
+$book = $booksIReadDB->prepare("SELECT
+    books.title,
+        books.description,
+        books.rating,
+        books.dateStartReading,
+        books.dateFinishReading,
+        books.edition,
+        books.yearEdition,
+        books.publishingHouse,
+        books.review
+    FROM
+        books
+    WHERE
+        books.id = ?");
+$book->execute([$bookId]);
+$book = $book->fetch();
+
+if (!$book) {
+    $title = "Книга не найдена";
+} else {
+    $title = $book['title'];
+}
+
+require_once getURI("components/header.php");
+
+$author = $booksIReadDB->prepare("SELECT
+        authors.name,
+        authors.surname,
+        authors.patronymic
+    FROM
+        authors
+    INNER JOIN books ON authors.id = books.authorId
+    WHERE
+        books.id = ?");
+$author->execute([$bookId]);
+$author = $author->fetch();
+
+$photos = $booksIReadDB->prepare("SELECT photos.photoURI FROM photos WHERE photos.bookId = ?");
+$photos->execute([$bookId]);
 ?>
 
 <main>
@@ -72,7 +78,7 @@ try {
                     <tr>
                         <th>Издание</th>
                         <td>
-                            <?
+                            <?php
                             if ($book['edition']) {
                                 echo $book['edition'];
                             } else {
@@ -91,7 +97,7 @@ try {
                     <tr>
                         <th>Издательство</th>
                         <td>
-                            <?
+                            <?php
                             if ($book['publishingHouse']) {
                                 echo $book['publishingHouse'];
                             } else {

@@ -1,6 +1,7 @@
 <?php
 $title = 'Books I Read';
 require_once $_SERVER["HTTP_HOST"] . '/../' . "subFunctions.php";
+require_once getURI("config.php");
 require_once getURI("components/header.php");
 function getShortName($name, $surname, $patronymic) {
     return $surname . " " . mb_substr($name, 0, 1) . "." . mb_substr($patronymic, 0, 1) . ".";
@@ -9,24 +10,19 @@ $booksIReadDB= new mysqli('localhost', 'root', '', 'booksireaddb');
 $booksIReadDB->set_charset('utf8');
 $dataBaseConnect_error = $booksIReadDB->connect_error;
 $dataBaseConnect_errno = $booksIReadDB->connect_errno;
-if ($dataBaseConnect_error) {
-    echo "Возникла ошибка базы данных: #" . $booksIReadDB->connect_errno . " " . $booksIReadDB->connect_error;
-} else {
-    $booksIReadDBResult = $booksIReadDB->query("SELECT * FROM `authors`");
-    $books = $booksIReadDB->query("SELECT
-                                books.id,
-                                books.title,
-                                authors.name,
-                                authors.surname,
-                                authors.patronymic,
-                                books.rating,
-                                books.dateStartReading,
-                                books.dateFinishReading
-                            FROM
-                                books
-                            INNER JOIN authors ON books.authorId = authors.id;");
-}
-$booksIReadDB->close();
+$booksIReadDBResult = $booksIReadDB->query("SELECT * FROM `authors`");
+$books = $booksIReadDB->query("SELECT
+                            books.id,
+                            books.title,
+                            authors.name,
+                            authors.surname,
+                            authors.patronymic,
+                            books.rating,
+                            books.dateStartReading,
+                            books.dateFinishReading
+                        FROM
+                            books
+                        INNER JOIN authors ON books.authorId = authors.id;");
 ?>
     <main>
         <section class="catalog">
@@ -42,10 +38,8 @@ $booksIReadDB->close();
                     Автор:
                     <select name="book-author-select" id="book-author-select">
                         <?php
-                        if (!$dataBaseConnect_error) {
-                            while ($row = $booksIReadDBResult->fetch_assoc()) {
-                                echo "<option>" . $row['surname'] . ' ' . $row['name'] . ' ' . $row['patronymic'] . "</option>";
-                            }
+                        while ($row = $booksIReadDBResult->fetch_assoc()) {
+                            echo "<option>" . $row['surname'] . ' ' . $row['name'] . ' ' . $row['patronymic'] . "</option>";
                         }
                         ?>
                     </select>
@@ -75,25 +69,23 @@ $booksIReadDB->close();
                 </thead>
                 <tbody>
                     <?php
-                        if (!$dataBaseConnect_error) {
-                            while ($row = $books->fetch_assoc()) {
-                                $linkURL = getURI("book.php?book=" . $row['id']);
-                                $dateStart = date('d.m.Y', strtotime($row['dateStartReading']));
-                                $authorName = $row['surname'] . " " . mb_substr($row['name'], 0, 1) . "." . mb_substr($row['patronymic'], 0, 1) . ".";
-                                if ($row['dateFinishReading']) {
-                                     $dateFinish = date('d.m.Y', strtotime($row['dateFinishReading']));
-                                } else {
-                                     $dateFinish = "-";
-                                }
-
-                                echo "<tr>";
-                                echo "<td><a href=" . $linkURL . ">" . $row['title'] . "</a></td>";
-                                echo "<td>" . $authorName . "</td>";
-                                echo "<td>" . $row['rating'] . "</td>";
-                                echo "<td>" . $dateStart . "</td>";
-                                echo "<td>" . $dateFinish . "</td>";
-                                echo "</tr>";
+                        while ($row = $books->fetch_assoc()) {
+                            $linkURL = getURI("book.php?book=" . $row['id']);
+                            $dateStart = date('d.m.Y', strtotime($row['dateStartReading']));
+                            $authorName = $row['surname'] . " " . mb_substr($row['name'], 0, 1) . "." . mb_substr($row['patronymic'], 0, 1) . ".";
+                            if ($row['dateFinishReading']) {
+                                 $dateFinish = date('d.m.Y', strtotime($row['dateFinishReading']));
+                            } else {
+                                 $dateFinish = "-";
                             }
+
+                            echo "<tr>";
+                            echo "<td><a href=" . $linkURL . ">" . $row['title'] . "</a></td>";
+                            echo "<td>" . $authorName . "</td>";
+                            echo "<td>" . $row['rating'] . "</td>";
+                            echo "<td>" . $dateStart . "</td>";
+                            echo "<td>" . $dateFinish . "</td>";
+                            echo "</tr>";
                         }
                     ?>
                 </tbody>

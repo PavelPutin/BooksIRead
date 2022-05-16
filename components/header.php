@@ -19,6 +19,7 @@ require_once getURI("subFunctions.php");
             <ul class="nav-list">
                 <li class="nav-item"><a href="<?php echo getURI('index.php');?>" class="nav-anchor nav-anchor_active">Каталог</a></li>
                 <li class="nav-item"><a href="<?php echo getURI('about.php');?>" class="nav-anchor">Обо мне</a></li>
+                <li class="nav-item"><a href="<?php echo getURI('register.php');?>" class="nav-anchor">Зарегистрироваться</a></li>
             </ul>
         </nav>
     </div>

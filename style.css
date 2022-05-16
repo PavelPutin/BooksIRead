@@ -260,3 +260,20 @@ footer .social-link {
     color: #fff;
     text-decoration: none;
 }
+
+.userForm {
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.userFrom label,
+.userForm input {
+    display: block;
+}
+
+.formGroup {
+    max-width: 500px;
+    margin-bottom: 10px
+}
