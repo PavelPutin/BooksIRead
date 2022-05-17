@@ -2,10 +2,10 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Generation Time: May 09, 2022 at 09:22 PM
--- Server version: 5.5.68-MariaDB
--- PHP Version: 7.1.33
+-- Хост: 127.0.0.1:3306
+-- Время создания: Май 17 2022 г., 19:11
+-- Версия сервера: 5.7.33
+-- Версия PHP: 8.0.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `booksireaddb`
+-- База данных: `booksireaddb`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `authors`
+-- Структура таблицы `authors`
 --
 
 CREATE TABLE `authors` (
@@ -35,7 +35,7 @@ CREATE TABLE `authors` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `authors`
+-- Дамп данных таблицы `authors`
 --
 
 INSERT INTO `authors` (`id`, `name`, `surname`, `patronymic`) VALUES
@@ -45,7 +45,7 @@ INSERT INTO `authors` (`id`, `name`, `surname`, `patronymic`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `books`
+-- Структура таблицы `books`
 --
 
 CREATE TABLE `books` (
@@ -63,7 +63,7 @@ CREATE TABLE `books` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `books`
+-- Дамп данных таблицы `books`
 --
 
 INSERT INTO `books` (`id`, `title`, `authorId`, `description`, `rating`, `dateStartReading`, `dateFinishReading`, `edition`, `yearEdition`, `publishingHouse`, `review`) VALUES
@@ -74,7 +74,7 @@ INSERT INTO `books` (`id`, `title`, `authorId`, `description`, `rating`, `dateSt
 -- --------------------------------------------------------
 
 --
--- Table structure for table `comments`
+-- Структура таблицы `comments`
 --
 
 CREATE TABLE `comments` (
@@ -82,15 +82,23 @@ CREATE TABLE `comments` (
   `userId` int(11) UNSIGNED NOT NULL,
   `bookId` int(11) UNSIGNED NOT NULL,
   `text` text NOT NULL,
-  `dateTime` datetime NOT NULL,
-  `likes` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `dislikes` int(10) UNSIGNED NOT NULL DEFAULT '0'
+  `dateTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `comments`
+--
+
+INSERT INTO `comments` (`id`, `userId`, `bookId`, `text`, `dateTime`) VALUES
+(1, 11, 1, 'Это просто текст', '2022-05-17 15:21:12'),
+(2, 11, 1, 'Ещё один комментарий', '2022-05-17 15:21:28'),
+(4, 12, 3, 'Комментарий к Войне и миру Оочень длиный. Не следует, однако, забывать, что начало повседневной работы по формированию позиции предоставляет широкие возможности для экономической целесообразности принимаемых решений. Современные технологии достигли такого уровня, что базовый вектор развития, в своём классическом представлении, допускает внедрение благоприятных перспектив! Есть над чем задуматься: некоторые особенности внутренней политики лишь добавляют фракционных разногласий и в равной степени предоставлены сами себе. Задача организации, в особенности же реализация намеченных плановых заданий предполагает независимые способы реализации своевременного выполнения сверхзадачи. В рамках спецификации современных стандартов, тщательные исследования конкурентов в равной степени предоставлены сами себе.', '2022-05-17 15:54:57'),
+(5, 14, 1, 'Очень понравилась', '2022-05-17 16:09:39');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `photos`
+-- Структура таблицы `photos`
 --
 
 CREATE TABLE `photos` (
@@ -100,7 +108,7 @@ CREATE TABLE `photos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `photos`
+-- Дамп данных таблицы `photos`
 --
 
 INSERT INTO `photos` (`id`, `photoURI`, `bookId`) VALUES
@@ -115,7 +123,7 @@ INSERT INTO `photos` (`id`, `photoURI`, `bookId`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Структура таблицы `users`
 --
 
 CREATE TABLE `users` (
@@ -127,31 +135,36 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `users`
+-- Дамп данных таблицы `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `pass`, `startFollowing`) VALUES
-(1, 'Pavel', 'pavelputin2003@yandex.ru', 'd8578edf8458ce06fbc5bb76a58c5ca4', '2022-05-05 08:47:07');
+(1, 'Pavel', 'pavelputin2003@yandex.ru', 'd8578edf8458ce06fbc5bb76a58c5ca4', '2022-05-05 08:47:07'),
+(10, 'pavel', 'putin@cs.vsu.ru', 'd6ca3fd0c3a3b462ff2b83436dda495e', '2022-05-16 15:04:04'),
+(11, 'pavelputin2003', 'pavel@mail.ru', 'd6ca3fd0c3a3b462ff2b83436dda495e', '2022-05-17 14:20:05'),
+(12, 'p', 'p@mail.ru', 'd6ca3fd0c3a3b462ff2b83436dda495e', '2022-05-17 15:54:03'),
+(13, 'паша', 'mail@mail.ru', '81dc9bdb52d04dc20036dbd8313ed055', '2022-05-17 16:03:43'),
+(14, 'Люда', 'ludmila@yandex.ru', 'd8578edf8458ce06fbc5bb76a58c5ca4', '2022-05-17 16:09:02');
 
 --
--- Indexes for dumped tables
+-- Индексы сохранённых таблиц
 --
 
 --
--- Indexes for table `authors`
+-- Индексы таблицы `authors`
 --
 ALTER TABLE `authors`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `books`
+-- Индексы таблицы `books`
 --
 ALTER TABLE `books`
   ADD PRIMARY KEY (`id`),
   ADD KEY `authorId` (`authorId`);
 
 --
--- Indexes for table `comments`
+-- Индексы таблицы `comments`
 --
 ALTER TABLE `comments`
   ADD PRIMARY KEY (`id`),
@@ -159,7 +172,7 @@ ALTER TABLE `comments`
   ADD KEY `comments_ibfk_2` (`bookId`);
 
 --
--- Indexes for table `photos`
+-- Индексы таблицы `photos`
 --
 ALTER TABLE `photos`
   ADD PRIMARY KEY (`id`),
@@ -167,65 +180,65 @@ ALTER TABLE `photos`
   ADD KEY `photos_ibfk_1` (`bookId`);
 
 --
--- Indexes for table `users`
+-- Индексы таблицы `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `EMAIL` (`email`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT для сохранённых таблиц
 --
 
 --
--- AUTO_INCREMENT for table `authors`
+-- AUTO_INCREMENT для таблицы `authors`
 --
 ALTER TABLE `authors`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `books`
+-- AUTO_INCREMENT для таблицы `books`
 --
 ALTER TABLE `books`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `comments`
+-- AUTO_INCREMENT для таблицы `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `photos`
+-- AUTO_INCREMENT для таблицы `photos`
 --
 ALTER TABLE `photos`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- Constraints for dumped tables
+-- Ограничения внешнего ключа сохраненных таблиц
 --
 
 --
--- Constraints for table `books`
+-- Ограничения внешнего ключа таблицы `books`
 --
 ALTER TABLE `books`
   ADD CONSTRAINT `books_ibfk_1` FOREIGN KEY (`authorId`) REFERENCES `authors` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `comments`
+-- Ограничения внешнего ключа таблицы `comments`
 --
 ALTER TABLE `comments`
   ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`bookId`) REFERENCES `books` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints for table `photos`
+-- Ограничения внешнего ключа таблицы `photos`
 --
 ALTER TABLE `photos`
   ADD CONSTRAINT `photos_ibfk_1` FOREIGN KEY (`bookId`) REFERENCES `books` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;

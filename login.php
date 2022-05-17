@@ -14,8 +14,8 @@ require_once getURI("components/header.php");
                 echo $_SESSION['email']; } ?>"
                    required>
             <div class="error-box"><?php
-                if (isset($_SESSION['error_email'])) {
-                    echo $_SESSION['error_email'];
+                if (isset($_SESSION['error_login'])) {
+                    echo $_SESSION['error_login'];
                 } ?></div>
         </div>
 

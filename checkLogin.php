@@ -4,8 +4,10 @@ require_once $_SERVER["HTTP_HOST"] . '/../' . "subFunctions.php";
 require_once getURI("config.php");
 
 unset($_SESSION['error_login']);
+unset($_SESSION['email']);
 
 $email= $_POST['email'];
+$_SESSION['email'] = $email;
 $password = $_POST['password'];
 
 $query = $booksIReadDB->prepare("SELECT * FROM users WHERE email=:email");
@@ -18,8 +20,9 @@ if (!$result) {
     header('Location:' . getURI('login.php'));
     exit;
 } else {
-    if (password_verify($password, $result['password'])) {
+    if (md5($password) ==  $result['pass']) {
         $_SESSION['user_id'] = $result['id'];
+        $_SESSION['username'] = $result['name'];
         header('Location:' . getURI('index.php'));
         exit;
     } else {

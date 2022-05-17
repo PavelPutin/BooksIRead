@@ -9,7 +9,7 @@ require_once getURI("components/header.php");
     <form class="userForm" action="<?= getURI("checkRegister.php") ?>" method="post">
         <div class="formGroup">
             <label for="name">Ваш логин:</label>
-            <input name="name" id ="name" type="text" pattern="[a-zA-Z0-9]+" value="<?php
+            <input name="name" id ="name" type="text" pattern="[a-zA-Z0-9а-яА-яЁё]+" value="<?php
             if (isset($_SESSION['username'])) {
                 echo $_SESSION['username']; } ?>" required>
         </div>
