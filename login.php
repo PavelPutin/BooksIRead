@@ -26,7 +26,7 @@ require_once getURI("components/header.php");
 
         <div class="formGroup">
             <input type="submit" value="Войти">
-            <a href="<? getURI('register.php')?>">Зарегистрироваться</a>
+            <a href="<?= getURI('register.php')?>">Зарегистрироваться</a>
         </div>
     </form>
 </main>

@@ -22,7 +22,7 @@ require_once getURI("subFunctions.php");
                 <li class="nav-item"><a href="<?php echo getURI('about.php');?>" class="nav-anchor">Обо мне</a></li>
                 <li class="nav-item"><a href="<?php echo getURI('register.php');?>" class="nav-anchor">Зарегистрироваться</a></li>
                 <li class="nav-item"><a href="<?php echo getURI('login.php');?>" class="nav-anchor"><?
-                        if ($_SESSION['user_id']) {
+                        if (isset($_SESSION['user_id'])) {
                             echo $_SESSION['username'];
                         }
                         else {

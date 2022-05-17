@@ -189,7 +189,7 @@ main {
     text-align: right;
 }
 
-.my-review .comment {
+.my-review .my-comment {
     width: 80%;
 }
 
@@ -276,4 +276,8 @@ footer .social-link {
 .formGroup {
     max-width: 500px;
     margin-bottom: 10px
+}
+
+#comment_textarea {
+    resize: none;
 }
