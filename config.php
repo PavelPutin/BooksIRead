@@ -68,10 +68,13 @@ function returnStrIf($condition, $str) {
     return ($condition ? $str : '');
 }
 
+function changeDateTimeFormat($strTime) {
+    return date('d.m.Y', strtotime($strTime));
+}
 function getComment($comment) {
     $name = $comment['name'];
     $userId = $comment['userId'];
-    $creationTime = date('d.m.Y', strtotime($comment['dateTime']));
+    $creationTime = changeDateTimeFormat($comment['dateTime']);
     $relativeTime = time2str(strtotime($comment['dateTime']));
     $text = $comment['text'];
     return "<div>.

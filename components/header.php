@@ -5,7 +5,7 @@ require_once $_SERVER["HTTP_HOST"] . '/../' . "config.php";
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <title><?php echo $title; ?></title>
+    <title><?= $title ?></title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="<?php echo getURI('style.css');?>">
 </head>
@@ -18,17 +18,20 @@ require_once $_SERVER["HTTP_HOST"] . '/../' . "config.php";
 
         <nav class="site-navigation">
             <ul class="nav-list">
-                <li class="nav-item"><a href="<?php echo getURI('index.php');?>" class="nav-anchor nav-anchor_active">Каталог</a></li>
-                <li class="nav-item"><a href="<?php echo getURI('about.php');?>" class="nav-anchor">Обо мне</a></li>
-                <li class="nav-item"><a href="<?php echo getURI('register.php');?>" class="nav-anchor">Зарегистрироваться</a></li>
-                <li class="nav-item"><a href="<?php echo getURI('login.php');?>" class="nav-anchor"><?
-                        if (isset($_SESSION['user_id'])) {
-                            echo $_SESSION['username'];
-                        }
-                        else {
-                            echo 'Войти';
-                        }
-                        ?></a></li>
+                <li class="nav-item">
+                    <a href="<?= getURI('index.php') ?>" class="nav-anchor nav-anchor_active">Каталог</a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= getURI('about.php') ?>" class="nav-anchor">Обо мне</a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= getURI('register.php') ?>" class="nav-anchor">Зарегистрироваться</a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= getURI('login.php') ?>" class="nav-anchor">
+                        <?= (isset($_SESSION['user_id']) ? $_SESSION['username'] : 'Войти') ?>
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>
