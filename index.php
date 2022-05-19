@@ -1,7 +1,6 @@
 <?php
 $title = 'Books I Read';
-require_once $_SERVER["HTTP_HOST"] . '/../' . "subFunctions.php";
-require_once getURI("config.php");
+require_once $_SERVER["HTTP_HOST"] . '/../' . "config.php";
 require_once getURI("components/header.php");
 function getShortName($name, $surname, $patronymic) {
     return $surname . " " . mb_substr($name, 0, 1) . "." . mb_substr($patronymic, 0, 1) . ".";

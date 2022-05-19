@@ -1,7 +1,6 @@
 <?php
 session_start();
-require_once $_SERVER["HTTP_HOST"] . '/../' . "subFunctions.php";
-require_once getURI("config.php");
+require_once $_SERVER["HTTP_HOST"] . '/../' . "config.php";
 
 unset($_SESSION['error_login']);
 unset($_SESSION['email']);

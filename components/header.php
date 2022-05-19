@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once getURI("subFunctions.php");
+require_once $_SERVER["HTTP_HOST"] . '/../' . "config.php";
 ?>
 <!DOCTYPE html>
 <html lang="ru">

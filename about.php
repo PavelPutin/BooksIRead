@@ -1,6 +1,6 @@
 <?php
 $title = "Обо мне";
-require_once $_SERVER["HTTP_HOST"] . '/../' . "subFunctions.php";
+require_once $_SERVER["HTTP_HOST"] . '/../' . "config.php";
 require_once getURI("components/header.php");
 ?>
 

@@ -7,8 +7,7 @@
     unset($_SESSION['email']);
 
 
-    require_once $_SERVER["HTTP_HOST"] . '/../' . "subFunctions.php";
-    require_once getURI("config.php");
+    require_once $_SERVER["HTTP_HOST"] . '/../' . "config.php";
 
     $username = $_POST['name'];
     $_SESSION['username'] = $username;
