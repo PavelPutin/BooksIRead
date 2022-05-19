@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Май 17 2022 г., 19:11
+-- Время создания: Май 19 2022 г., 21:29
 -- Версия сервера: 5.7.33
 -- Версия PHP: 8.0.14
 
@@ -90,10 +90,9 @@ CREATE TABLE `comments` (
 --
 
 INSERT INTO `comments` (`id`, `userId`, `bookId`, `text`, `dateTime`) VALUES
-(1, 11, 1, 'Это просто текст', '2022-05-17 15:21:12'),
-(2, 11, 1, 'Ещё один комментарий', '2022-05-17 15:21:28'),
 (4, 12, 3, 'Комментарий к Войне и миру Оочень длиный. Не следует, однако, забывать, что начало повседневной работы по формированию позиции предоставляет широкие возможности для экономической целесообразности принимаемых решений. Современные технологии достигли такого уровня, что базовый вектор развития, в своём классическом представлении, допускает внедрение благоприятных перспектив! Есть над чем задуматься: некоторые особенности внутренней политики лишь добавляют фракционных разногласий и в равной степени предоставлены сами себе. Задача организации, в особенности же реализация намеченных плановых заданий предполагает независимые способы реализации своевременного выполнения сверхзадачи. В рамках спецификации современных стандартов, тщательные исследования конкурентов в равной степени предоставлены сами себе.', '2022-05-17 15:54:57'),
-(5, 14, 1, 'Очень понравилась', '2022-05-17 16:09:39');
+(5, 14, 1, 'Очень понравилась', '2022-05-17 16:09:39'),
+(6, 15, 3, 'Хорошо... усыпляет', '2022-05-17 18:07:40');
 
 -- --------------------------------------------------------
 
@@ -141,10 +140,10 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `pass`, `startFollowing`) VALUES
 (1, 'Pavel', 'pavelputin2003@yandex.ru', 'd8578edf8458ce06fbc5bb76a58c5ca4', '2022-05-05 08:47:07'),
 (10, 'pavel', 'putin@cs.vsu.ru', 'd6ca3fd0c3a3b462ff2b83436dda495e', '2022-05-16 15:04:04'),
-(11, 'pavelputin2003', 'pavel@mail.ru', 'd6ca3fd0c3a3b462ff2b83436dda495e', '2022-05-17 14:20:05'),
 (12, 'p', 'p@mail.ru', 'd6ca3fd0c3a3b462ff2b83436dda495e', '2022-05-17 15:54:03'),
 (13, 'паша', 'mail@mail.ru', '81dc9bdb52d04dc20036dbd8313ed055', '2022-05-17 16:03:43'),
-(14, 'Люда', 'ludmila@yandex.ru', 'd8578edf8458ce06fbc5bb76a58c5ca4', '2022-05-17 16:09:02');
+(14, 'Люда', 'ludmila@yandex.ru', 'd8578edf8458ce06fbc5bb76a58c5ca4', '2022-05-17 16:09:02'),
+(15, 'Сашик', 'sachic@yandex.ru', '4a7d1ed414474e4033ac29ccb8653d9b', '2022-05-17 18:07:04');
 
 --
 -- Индексы сохранённых таблиц
@@ -206,7 +205,7 @@ ALTER TABLE `books`
 -- AUTO_INCREMENT для таблицы `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT для таблицы `photos`
@@ -218,7 +217,7 @@ ALTER TABLE `photos`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -234,8 +233,8 @@ ALTER TABLE `books`
 -- Ограничения внешнего ключа таблицы `comments`
 --
 ALTER TABLE `comments`
-  ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`bookId`) REFERENCES `books` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`bookId`) REFERENCES `books` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `photos`
