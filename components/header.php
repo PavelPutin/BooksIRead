@@ -28,9 +28,13 @@ require_once $_SERVER["HTTP_HOST"] . '/../' . "config.php";
                     <a href="<?= getURI('register.php') ?>" class="nav-anchor">Зарегистрироваться</a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?= getURI('login.php') ?>" class="nav-anchor">
-                        <?= (isset($_SESSION['user_id']) ? $_SESSION['username'] : 'Войти') ?>
-                    </a>
+                    <?php
+                        if (isset($_SESSION['user_id'])) {
+                            echo '<a href="' . getURI('profile.php') . '"class="nav-anchor">' . $_SESSION['username'] .  '</a>';
+                        } else {
+                            echo '<a href="' . getURI('login.php') . '"class="nav-anchor">Войти</a>';
+                        }
+                    ?>
                 </li>
             </ul>
         </nav>

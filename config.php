@@ -77,15 +77,15 @@ function getComment($comment) {
     $creationTime = changeDateTimeFormat($comment['dateTime']);
     $relativeTime = time2str(strtotime($comment['dateTime']));
     $text = $comment['text'];
-    return "<div>.
-        <div class='row'>.
-            <span class='user_name'>" . $name . "</span>.
-            <span class='userId'>#" . $userId . "</span>.
-            <span class='creationTime'>" . $creationTime . "</span>.
-            <span class='relativeTime'>" . $relativeTime . "</span>.
-        </div>.
-        <div class='row'>.
-            <p class='comment_text'>" . $text . "</p>.
-        </div>.
+    return "<div>
+        <div class='row'>
+            <span class='user_name'>" . $name . "</span>
+            <span class='userId'>#" . $userId . "</span>
+            <span class='creationTime'>" . $creationTime . "</span>
+            <span class='relativeTime'>" . $relativeTime . "</span>
+        </div>
+        <div class='row'>
+            <p class='comment_text'>" . $text . "</p>
+        </div>
     </div>";
 }

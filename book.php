@@ -126,7 +126,7 @@ $comments->execute([$bookId]);
             <h3>Комментарии</h3>
             <form class="userForm" action="<?= getURI("checkComment.php") ?>" method="post">
                 <textarea name="text" id="comment_textarea" cols="30" rows="10" <?= returnStrIf(!isset($_SESSION['user_id']), 'disabled') ?>></textarea>
-                <div class="comment_text_error"><?= returnStrIf(isset($_SESSION['error_text_len']), $_SESSION['error_text_len']) ?></div>
+                <div class="comment_text_error"><?= (isset($_SESSION['error_text_len']) ? $_SESSION['error_text_len'] : '') ?></div>
                 <input type="submit" name="commentSubmit" value="Написать комментарий" <?= returnStrIf(!isset($_SESSION['user_id']), 'disabled') ?>>
             </form>
 
